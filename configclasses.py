@@ -1,13 +1,13 @@
 import os
+from abc import abstractmethod
 from dataclasses import _process_class, fields
 from pathlib import Path
-from typing import Dict
+from typing import Dict, runtime_checkable, Protocol, Union, Tuple, Any, List
 
 from dotenv import load_dotenv
-
 from tomlkit import parse
 
-supported_extensions = (".env", ".toml", ".yaml", ".ini", ".cfg", ".json")
+supported_extensions = (".env", ".toml", ".yaml", ".yml", ".ini", ".cfg", ".json")
 
 
 class NonSupportedExtension(Exception):
@@ -18,9 +18,23 @@ class ConfigFilePathDoesNotExist(Exception):
     pass
 
 
+@runtime_checkable
+class SupportsStr(Protocol):
+    """An ABC with one abstract method __str__."""
+    __slots__ = ()
+
+    @abstractmethod
+    def __str__(self) -> str:
+        pass
+
+
+def normalize_field_name(field_name: Union[SupportsStr, str]):
+    return str.lower(str(field_name))
+
+
 def load_dict(dict: Dict[str, str]):
     for k, v in dict.items():
-        os.environ[str(k)] = str(v)
+        os.environ[normalize_field_name(k)] = str(v)
 
 
 def load_toml(path: Path):
@@ -45,12 +59,12 @@ def load_json(path: Path):
     pass
 
 
-def extension_to_env(extension: str, path: Path):
+def extension_to_env(extension: str, path: Union[Path, os.PathLike]):
     if extension == ".env":
         load_dotenv(dotenv_path=path)
     elif extension == ".toml":
         load_toml(path)
-    elif extension == ".yaml":
+    elif extension == ".yaml" or extension == ".yml":
         load_yaml(path)
     elif extension == ".ini":
         load_ini(path)
@@ -75,16 +89,16 @@ def path_to_env(path: Path):
 
 
 def configclass(
-    cls=None,
-    /,
-    *,
-    init=True,
-    repr=True,
-    eq=True,
-    order=False,
-    unsafe_hash=False,
-    frozen=False,
-    prefix=None
+        cls=None,
+        /,
+        *,
+        init=True,
+        repr=True,
+        eq=True,
+        order=False,
+        unsafe_hash=False,
+        frozen=False,
+        prefix=None
 ):
     def wrap(cls):
         return _post_process_class(
@@ -103,19 +117,26 @@ def configclass(
 def _post_process_class(cls):
     CONVERTER_TYPES = (int, float, bool)
 
-    @classmethod
-    def from_environ(cls, defaults: Dict[str, str]):
-        init_dict = dict()
-        for field in fields(cls):
-            field_name = field.name
+    def initialize_init_dict(fields: List[Tuple[Any, Any, Any]], defaults: Dict[str, str]):
+        def get_field_value(field_name: Any):
+            return os.environ.get(str.upper(field_name)) or os.environ.get(field_name) or defaults.get(field_name)
 
-            if field_value := os.environ.get(field_name, defaults.get(field_name)):
-                converter = field.type if field.type in CONVERTER_TYPES else None
+        init_dict = dict()
+        for field_name, field_type, field_default in fields:
+            if field_value := get_field_value(field_name):
+                converter = field_type if field_type in CONVERTER_TYPES else None
                 init_dict[field_name] = (
                     converter(field_value) if converter else field_value
                 )
             else:
-                init_dict[field_name] = field.default
+                init_dict[field_name] = field_default
+        return init_dict
+
+
+    @classmethod
+    def from_environ(cls, defaults: Dict[str, str]):
+        fields_tuple = [(field.name, field.type, field.default) for field in fields(cls)]
+        init_dict = initialize_init_dict(fields_tuple, defaults)
 
         return cls(**init_dict)
 

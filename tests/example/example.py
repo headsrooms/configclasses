@@ -19,7 +19,7 @@ class AppConfig:
     only_pub: bool = False
 
 
-os.environ["default_price"] = "22"
+os.environ["DEFAULT_PRICE"] = "22"
 cfg = AppConfig.from_environ(
     {"db": "postgres", "APP_DB_USER": "matt"}
 )  # it takes values from os.environ by default, if some key is not provided it fills with values in dict
