@@ -1,11 +1,9 @@
 import os
-from abc import abstractmethod
 from dataclasses import _process_class, fields
 from pathlib import Path
-from typing import Dict, runtime_checkable, Protocol, Union, Tuple, Any, List
+from typing import Dict, Tuple, Any, List
 
-from dotenv import load_dotenv
-from tomlkit import parse
+from loaders import file_to_env
 
 supported_extensions = (".env", ".toml", ".yaml", ".yml", ".ini", ".cfg", ".json")
 
@@ -18,69 +16,13 @@ class ConfigFilePathDoesNotExist(Exception):
     pass
 
 
-@runtime_checkable
-class SupportsStr(Protocol):
-    """An ABC with one abstract method __str__."""
-    __slots__ = ()
-
-    @abstractmethod
-    def __str__(self) -> str:
-        pass
-
-
-def normalize_field_name(field_name: Union[SupportsStr, str]):
-    return str.lower(str(field_name))
-
-
-def load_dict(dict: Dict[str, str]):
-    for k, v in dict.items():
-        os.environ[normalize_field_name(k)] = str(v)
-
-
-def load_toml(path: Path):
-    with path.open("r") as config_file:
-        cfg = parse(config_file.read())
-    load_dict(cfg)
-
-
-def load_yaml(path: Path):
-    pass
-
-
-def load_ini(path: Path):
-    pass
-
-
-def load_cfg(path: Path):
-    pass
-
-
-def load_json(path: Path):
-    pass
-
-
-def extension_to_env(extension: str, path: Union[Path, os.PathLike]):
-    if extension == ".env":
-        load_dotenv(dotenv_path=path)
-    elif extension == ".toml":
-        load_toml(path)
-    elif extension == ".yaml" or extension == ".yml":
-        load_yaml(path)
-    elif extension == ".ini":
-        load_ini(path)
-    elif extension == ".cfg":
-        load_cfg(path)
-    elif extension == ".json":
-        load_json(path)
-
-
 def path_to_env(path: Path):
     if not path.exists():
         raise ConfigFilePathDoesNotExist()
     if path.is_file():
         extension = path.suffix
         if extension in supported_extensions:
-            extension_to_env(extension, path)
+            file_to_env(extension, path)
         else:
             raise NonSupportedExtension()
     else:

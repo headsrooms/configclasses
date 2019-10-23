@@ -9,6 +9,7 @@ license = "MIT"
 python = "^3.8"
 tomlkit = {version = "^0.5.8", extras = ["toml"]}
 python-dotenv = {version = "^0.10.3", extras = ["dotenv"]}
+pyyaml = {version = "^5.1", extras = ["yaml"]}
 
 [tool.poetry.dev-dependencies]
 
