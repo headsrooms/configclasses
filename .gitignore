@@ -112,6 +112,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+.idea/
 .idea/.gitignore
 .idea/configclasses.iml
 .idea/inspectionProfiles/
@@ -119,3 +120,4 @@ dmypy.json
 .idea/modules.xml
 .idea/sonarlint/
 .idea/vcs.xml
+!/tests/test_files/test.env

@@ -1,0 +1,9 @@
+OUTER_INT = 1
+[section_1]
+INNER_FLOAT = 3.4
+
+[other_section]
+inner_bool = false
+
+INNER_STRING = "hola"
+

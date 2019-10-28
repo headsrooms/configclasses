@@ -1,0 +1,4 @@
+{"OUTER_INT": 1,"section": {
+"INNER_FLOAT": 3.4,
+"inner_bool": false,
+"INNER_STRING": "hola"}}

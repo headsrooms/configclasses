@@ -1,27 +1,15 @@
+import configparser
 import os
-from abc import abstractmethod
 from json import loads
 from pathlib import Path
-from typing import runtime_checkable, Protocol, Union, Dict
-
-import configparser
+from typing import Union, Dict
 
 
 class DependencyNotInstalled(Exception):
     pass
 
 
-@runtime_checkable
-class SupportsStr(Protocol):
-    """An ABC with one abstract method __str__."""
-    __slots__ = ()
-
-    @abstractmethod
-    def __str__(self) -> str:
-        pass
-
-
-def normalize_field_name(field_name: Union[SupportsStr, str]):
+def normalize_field_name(field_name: str):
     return str.lower(str(field_name))
 
 
@@ -44,6 +32,12 @@ def file_to_env(extension: str, path: Union[Path, os.PathLike]):
 
 def load_dict(dict: Dict[str, str]):
     for k, v in dict.items():
+        if isinstance(v, Dict):
+            inner_dict = {
+                f"{k}_{inner_key}": inner_value for inner_key, inner_value in v.items()
+            }
+            load_dict(inner_dict)
+            continue
         os.environ[normalize_field_name(k)] = str(v)
 
 
@@ -60,19 +54,19 @@ def load_toml(path: Path):
 
 def load_yaml(path: Path):
     try:
-        from yaml import load
+        from yaml import full_load
     except ImportError:
         raise DependencyNotInstalled("You must install pyyaml")
 
     with path.open("r") as config_file:
-        cfg = load(config_file.read())
+        cfg = full_load(config_file.read())
     load_dict(cfg)
 
 
 def load_ini(path: Path):
     cfg = configparser.ConfigParser()
     cfg.read(path)
-    load_dict(cfg.__dict__['_sections'])
+    load_dict(cfg.__dict__["_sections"])
 
 
 def load_json(path: Path):
