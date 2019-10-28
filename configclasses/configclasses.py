@@ -51,19 +51,19 @@ def _post_process_class(cls):
     def from_environ(
         cls, defaults: Dict[str, str] = None, parent_field_name: Optional[str] = None
     ):
-        def initialize_init_dict(class_fields: List[Tuple[Any, Any, Any]]):
-            def get_field_value_from_environ(field_name: Any):
-                return os.environ.get(str.upper(field_name)) or os.environ.get(
+        def get_field_value_from_environ(field_name: Any):
+            return os.environ.get(str.upper(field_name)) or os.environ.get(
+                field_name
+            )
+
+        def get_default_value(field_name: Any):
+            if defaults:
+                return defaults.get(str.upper(field_name)) or defaults.get(
                     field_name
                 )
 
-            def get_default_value(field_name: Any):
-                if defaults:
-                    return defaults.get(str.upper(field_name)) or defaults.get(
-                        field_name
-                    )
-
-            init_dict = dict()
+        def fill_init_dict(class_fields: List[Tuple[Any, Any, Any]]):
+            init_dict = {}
             for class_field_name, class_field_type, class_field_default in class_fields:
                 origin_field_name = (
                     f"{parent_field_name}_{class_field_name}"
@@ -75,24 +75,25 @@ def _post_process_class(cls):
                         defaults, origin_field_name
                     )
                 elif field_value := get_field_value_from_environ(
-                    origin_field_name
+                        origin_field_name
                 ) or get_default_value(origin_field_name):
                     if class_field_type in CONVERTER_TYPES:
                         init_dict[class_field_name] = class_field_type(field_value)
                     elif class_field_type == bool:
                         init_dict[class_field_name] = (
-                            field_value == "True" or field_value == "true"
+                                field_value == "True" or field_value == "true"
                         )
                     else:
                         init_dict[class_field_name] = field_value
                 else:
                     init_dict[class_field_name] = class_field_default
+
             return init_dict
 
         fields_tuple = [
             (field.name, field.type, field.default) for field in fields(cls)
         ]
-        init_dict = initialize_init_dict(fields_tuple)
+        init_dict = fill_init_dict(fields_tuple)
         return cls(**init_dict)
 
     def from_path(cls, config_path: str, defaults: Dict[str, str] = None):
