@@ -5,6 +5,10 @@ description = "Like dataclasses but for config."
 authors = ["Pablo Cabezas <pabcabsal@gmail.com>"]
 license = "MIT"
 
+packages = [
+    { include = "configclasses" },
+]
+
 [tool.poetry.dependencies]
 python = "^3.8"
 tomlkit = {version = "^0.5.8", extras = ["toml"]}
