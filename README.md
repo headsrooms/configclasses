@@ -1,5 +1,10 @@
 # configclasses
 
+![PyPI](https://img.shields.io/pypi/v/12factor-configclasses)
+[![codecov](https://codecov.io/gh/kingoodie/configclasses/branch/master/graph/badge.svg)](https://codecov.io/gh/kingoodie/configclasses)
+
+
+
 Like dataclases but for config.
 
 
