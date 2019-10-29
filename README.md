@@ -46,3 +46,25 @@ DB(driver='postgres', host=<dataclasses._MISSING_TYPE object at 0x000001E6BD1F96
 AppConfig(db=DB(driver='redis', host='localhost', port=<dataclasses._MISSING_TYPE object at 0x000001E6BD1F9640>, user=<dataclasses._MISSING_TYPE object at 0x000001E6BD1F9640>, password=<dataclasses._MISSING_TYPE object at 0x000001E6BD1F9640>), default_price=52.1, only_pub=True)
 
 ```
+
+## Requiremnts
+
+Python 3.8+
+
+
+## Installation
+
+    pip install 12factor-configclasses
+    
+## Supported formats
+
+- .env ->   ```pip install 12factor-configclasses[dotenv]```
+- .yaml ->   ```pip install 12factor-configclasses[yaml]```
+- .toml ->   ```pip install 12factor-configclasses[toml]```
+- .ini
+- .json
+
+Install all dependencies with:
+
+    pip install 12factor-configclasses[full]
+    
