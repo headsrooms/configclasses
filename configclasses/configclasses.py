@@ -17,23 +17,21 @@ class ConfigFilePathDoesNotExist(Exception):
 
 
 def configclass(
-    cls=None,
-    /,
-    *,
-    init=True,
-    repr=True,
-    eq=True,
-    order=False,
-    unsafe_hash=False,
-    frozen=False,
-    prefix=None,
+    cls=None, /, *, prefix: Optional[str] = None, **dataclass_parameters,
 ):
-    """Same behaviour that dataclass with additional classmethods as dataclass intializer: from_environ and from_path
+    """Same behaviour that dataclass with additional classmethods as dataclass intializers: from_environ and from_path
     """
+
+    init = dataclass_parameters.get("init", True)
+    repr = dataclass_parameters.get("repr", True)
+    eq = dataclass_parameters.get("eq", True)
+    order = dataclass_parameters.get("order", False)
+    unsafe_hash = dataclass_parameters.get("unsafe_hash", False)
+    frozen = dataclass_parameters.get("frozen", True)
 
     def wrap(cls):
         return _post_process_class(
-            _process_class(cls, init, repr, eq, order, unsafe_hash, frozen)
+            _process_class(cls, init, repr, eq, order, unsafe_hash, frozen), prefix
         )
 
     # See if we're being called as @configclass or @configclass().
@@ -45,43 +43,45 @@ def configclass(
     return wrap(cls)
 
 
-def _post_process_class(cls):
+def _post_process_class(the_class, prefix):
     CONVERTER_TYPES = (int, float)
 
     def from_environ(
         cls, defaults: Dict[str, str] = None, parent_field_name: Optional[str] = None
     ):
         def get_field_value_from_environ(field_name: Any):
-            return os.environ.get(str.upper(field_name)) or os.environ.get(
-                field_name
-            )
+            return os.environ.get(str.upper(field_name)) or os.environ.get(field_name)
 
         def get_default_value(field_name: Any):
             if defaults:
-                return defaults.get(str.upper(field_name)) or defaults.get(
-                    field_name
-                )
+                return defaults.get(str.upper(field_name)) or defaults.get(field_name)
 
         def fill_init_dict(class_fields: List[Tuple[Any, Any, Any]]):
             init_dict = {}
             for class_field_name, class_field_type, class_field_default in class_fields:
-                origin_field_name = (
-                    f"{parent_field_name}_{class_field_name}"
-                    if parent_field_name
-                    else class_field_name
-                )
+                if not prefix and not parent_field_name:
+                    origin_field_name = class_field_name
+                elif parent_field_name:
+                    origin_field_name = f"{parent_field_name}_{class_field_name}"
+                elif prefix:
+                    origin_field_name = f"{prefix}_{class_field_name}"
+                else:
+                    origin_field_name = (
+                        f"{prefix}_{parent_field_name}_{class_field_name}"
+                    )
+
                 if is_dataclass(class_field_type):
                     init_dict[class_field_name] = class_field_type.from_environ(
                         defaults, origin_field_name
                     )
                 elif field_value := get_field_value_from_environ(
-                        origin_field_name
+                    origin_field_name
                 ) or get_default_value(origin_field_name):
                     if class_field_type in CONVERTER_TYPES:
                         init_dict[class_field_name] = class_field_type(field_value)
                     elif class_field_type == bool:
                         init_dict[class_field_name] = (
-                                field_value == "True" or field_value == "true"
+                            field_value == "True" or field_value == "true"
                         )
                     else:
                         init_dict[class_field_name] = field_value
@@ -96,7 +96,7 @@ def _post_process_class(cls):
         init_dict = fill_init_dict(fields_tuple)
         return cls(**init_dict)
 
-    def from_path(cls, config_path: str, defaults: Dict[str, str] = None):
+    def from_path(cls, config_path: str, defaults: Dict[str, str] = None, prefix=None):
         def path_to_env(path: Path):
             """Given a path it loads into os.environ all config files found in this path.
             """
@@ -115,7 +115,7 @@ def _post_process_class(cls):
         path_to_env(Path(config_path))
         return cls.from_environ(defaults)
 
-    cls.from_environ = classmethod(from_environ)
-    cls.from_path = classmethod(from_path)
+    the_class.from_environ = classmethod(from_environ)
+    the_class.from_path = classmethod(from_path)
 
-    return cls
+    return the_class

@@ -13,7 +13,7 @@ def normalize_field_name(field_name: str):
     return str.lower(str(field_name))
 
 
-def file_to_env(extension: str, path: Union[Path, os.PathLike]):
+def file_to_env(extension: str, path: Path):
     if extension == ".env":
         try:
             from dotenv import load_dotenv

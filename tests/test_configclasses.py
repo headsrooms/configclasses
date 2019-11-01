@@ -45,3 +45,15 @@ def test_from_environ(a_configclass):
     cfg = a_configclass.from_environ({"db_driver": "postgres", "DB_USER": "matt"})
     assert cfg.default_price == 22
     assert cfg.only_pub == True
+    assert cfg.db.user == "matt"
+
+
+def test_prefix_parameter_works(a_configclass_with_prefix):
+    os.environ["APP_DB_HOST"] = "localhost"
+    os.environ["APP_DB_PORT"] = "8432"
+    cfg = a_configclass_with_prefix.from_environ(
+        {"app_db_driver": "postgres", "APP_DB_USER": "katie"}
+    )
+    assert cfg.db.port == 8432
+    assert cfg.db.host == "localhost"
+    assert cfg.db.user == "katie"

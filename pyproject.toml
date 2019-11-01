@@ -23,6 +23,10 @@ full = ["tomlkit", "python-dotenv", "pyyaml"]
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
+tomlkit = {version = "^0.5.8"}
+python-dotenv = {version = "^0.10.3"}
+pyyaml = {version = "^5.1"}
+pytest-mypy = "^0.4.1"
 
 [build-system]
 requires = ["poetry>=0.12"]
