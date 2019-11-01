@@ -28,6 +28,10 @@ print(cfg.db)
 
 cfg_2 = AppConfig.from_path(
     config_path="tests/example/conf/config.toml",
-    defaults={"APP_DB_HOST": "localhost", "app_db_driver": "redis", "default_price": "ignored"},
+    defaults={
+        "APP_DB_HOST": "localhost",
+        "app_db_driver": "redis",
+        "default_price": "ignored",
+    },
 )
 print(cfg_2)
