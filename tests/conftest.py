@@ -1,6 +1,6 @@
 import pytest
 
-from configclasses.configclasses import configclass
+from configclasses import configclass
 
 
 @pytest.fixture

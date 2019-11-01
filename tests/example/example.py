@@ -1,6 +1,6 @@
 import os
 
-from configclasses.configclasses import configclass
+from configclasses import configclass
 
 
 @configclass

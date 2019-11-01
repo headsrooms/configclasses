@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "12factor-configclasses"
-version = "0.1.3"
+version = "0.2.0"
 description = "Like dataclasses but for config."
 authors = ["Pablo Cabezas <pabcabsal@gmail.com>"]
 license = "MIT"
@@ -14,6 +14,7 @@ python = "^3.8"
 tomlkit = {version = "^0.5.8", extras = ["toml"], optional = true}
 python-dotenv = {version = "^0.10.3", extras = ["dotenv"], optional = true}
 pyyaml = {version = "^5.1", extras = ["yaml"], optional = true}
+starlette = "^0.12.12"
 
 [tool.poetry.extras]
 toml = ["tomlkit"]

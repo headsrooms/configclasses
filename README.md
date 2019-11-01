@@ -11,7 +11,7 @@ Like dataclases but for config.
 ```python
 >>> import os
 ... 
-... from configclasses.configclasses import configclass
+... from configclasses import configclass
 ... 
 ... 
 ... @configclass
@@ -72,7 +72,7 @@ Install all dependencies with:
 
     import os
     
-    from configclasses.configclasses import configclass
+    from configclasses import configclass
     
     
     @configclass

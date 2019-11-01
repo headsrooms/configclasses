@@ -3,8 +3,11 @@ from dataclasses import is_dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
-from configclasses import supported_extensions, converter_types
 from configclasses.loaders import file_to_env
+
+
+supported_extensions = (".env", ".toml", ".yaml", ".yml", ".ini", ".cfg", ".json")
+converter_types = (int, float)
 
 
 class NonSupportedExtension(Exception):
