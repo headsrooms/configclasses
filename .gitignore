@@ -120,4 +120,4 @@ dmypy.json
 .idea/modules.xml
 .idea/sonarlint/
 .idea/vcs.xml
-!/tests/test_files/test.env
+!/tests/test_files/.env

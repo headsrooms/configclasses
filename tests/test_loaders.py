@@ -17,7 +17,7 @@ def test_normalize_field_name():
 
 
 def test_file_to_env_dotenv():
-    file_to_env(".env", Path("tests/test_files/test.env"))
+    file_to_env(".env", Path("tests/test_files/.env"))
     assert os.environ["outer_int"] == "1"
     assert os.environ["section_1_inner_float"] == "3.4"
     assert os.environ["other_section_inner_bool"] == "False"

@@ -77,7 +77,7 @@ def path_to_env(path: Path):
     if not path.exists():
         raise ConfigFilePathDoesNotExist(f"Config file path '{str(path)}' does not exist")
     if path.is_file():
-        extension = path.suffix
+        extension = path.suffix or path.name
         if extension in supported_extensions:
             file_to_env(extension, path)
         else:
