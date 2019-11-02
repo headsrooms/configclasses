@@ -2,7 +2,7 @@
 
 ![PyPI](https://img.shields.io/pypi/v/12factor-configclasses)
 [![codecov](https://codecov.io/gh/kingoodie/configclasses/branch/master/graph/badge.svg)](https://codecov.io/gh/kingoodie/configclasses)
-
+<a href="https://codeclimate.com/github/kingoodie/configclasses/maintainability"><img src="https://api.codeclimate.com/v1/badges/9094f65f5caef64fb993/maintainability" /></a>
 
 
 Like dataclases but for config.
