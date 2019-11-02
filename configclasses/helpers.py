@@ -66,13 +66,13 @@ def path_to_env(path: Path):
     """Given a path it loads into os.environ all config files found in this path.
     """
     if not path.exists():
-        raise ConfigFilePathDoesNotExist()
+        raise ConfigFilePathDoesNotExist(f"Config file path '{str(path)}' does not exist")
     if path.is_file():
         extension = path.suffix
         if extension in supported_extensions:
             file_to_env(extension, path)
         else:
-            raise NonSupportedExtension()
+            raise NonSupportedExtension(f"Extension '{extension}' not supported")
     else:
         for x in path.iterdir():
             path_to_env(x)
