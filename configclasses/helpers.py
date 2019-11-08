@@ -1,21 +1,9 @@
 import os
 from dataclasses import is_dataclass
-from pathlib import Path
 from typing import Any, Dict, List, Tuple
-
-from configclasses.loaders import file_to_env
-
 
 supported_extensions = (".env", ".toml", ".yaml", ".yml", ".ini", ".cfg", ".json")
 converter_types = (int, float)
-
-
-class NonSupportedExtension(Exception):
-    pass
-
-
-class ConfigFilePathDoesNotExist(Exception):
-    pass
 
 
 def get_field_value_from_environ(field_name: Any):
@@ -32,7 +20,9 @@ def fill_init_dict(
 ):
     init_dict = {}
     for class_field_name, class_field_type, class_field_default in class_fields:
-        origin_field_name = get_origin_field_name(class_field_name, parent_field_name, prefix)
+        origin_field_name = get_origin_field_name(
+            class_field_name, parent_field_name, prefix
+        )
 
         if is_dataclass(class_field_type):
             init_dict[class_field_name] = class_field_type.from_environ(
@@ -41,20 +31,22 @@ def fill_init_dict(
         elif field_value := get_field_value_from_environ(
             origin_field_name
         ) or get_default_value(origin_field_name, defaults):
-            fill_with_environ_or_provided_defaults(class_field_name, class_field_type, field_value, init_dict)
+            fill_with_environ_or_provided_defaults(
+                class_field_name, class_field_type, field_value, init_dict
+            )
         else:
             init_dict[class_field_name] = class_field_default
 
     return init_dict
 
 
-def fill_with_environ_or_provided_defaults(class_field_name, class_field_type, field_value, init_dict):
+def fill_with_environ_or_provided_defaults(
+    class_field_name, class_field_type, field_value, init_dict
+):
     if class_field_type in converter_types:
         init_dict[class_field_name] = class_field_type(field_value)
     elif class_field_type == bool:
-        init_dict[class_field_name] = (
-                field_value == "True" or field_value == "true"
-        )
+        init_dict[class_field_name] = field_value == "True" or field_value == "true"
     else:
         init_dict[class_field_name] = field_value
 
@@ -71,17 +63,5 @@ def get_origin_field_name(class_field_name, parent_field_name, prefix):
     return origin_field_name
 
 
-def path_to_env(path: Path):
-    """Given a path it loads into os.environ all config files found in this path.
-    """
-    if not path.exists():
-        raise ConfigFilePathDoesNotExist(f"Config file path '{str(path)}' does not exist")
-    if path.is_file():
-        extension = path.suffix or path.name
-        if extension in supported_extensions:
-            file_to_env(extension, path)
-        else:
-            raise NonSupportedExtension(f"Extension '{extension}' not supported")
-    else:
-        for x in path.iterdir():
-            path_to_env(x)
+def normalize_field_name(field_name: str):
+    return str.lower(str(field_name))

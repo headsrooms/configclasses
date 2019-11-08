@@ -2,32 +2,18 @@ import configparser
 import os
 from json import loads
 from pathlib import Path
-from typing import Union, Dict
+from typing import Dict
+
+from configclasses.exceptions import DependencyNotInstalled
+from configclasses.helpers import normalize_field_name
 
 
-class DependencyNotInstalled(Exception):
-    pass
-
-
-def normalize_field_name(field_name: str):
-    return str.lower(str(field_name))
-
-
-def file_to_env(extension: str, path: Path):
-    if extension == ".env":
-        try:
-            from dotenv import load_dotenv
-        except ImportError:
-            raise DependencyNotInstalled("You must install 'python-dotenv'")
-        load_dotenv(dotenv_path=path)
-    elif extension == ".toml":
-        load_toml(path)
-    elif extension == ".yaml" or extension == ".yml":
-        load_yaml(path)
-    elif extension == ".ini" or extension == ".cfg":
-        load_ini(path)
-    elif extension == ".json":
-        load_json(path)
+def load_env(path):
+    try:
+        from dotenv import load_dotenv
+    except ImportError:
+        raise DependencyNotInstalled("You must install 'python-dotenv'")
+    load_dotenv(dotenv_path=path)
 
 
 def load_dict(dict: Dict[str, str]):

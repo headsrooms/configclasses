@@ -2,14 +2,14 @@ import os
 from pathlib import Path
 
 from configclasses.loaders import (
-    normalize_field_name,
     load_dict,
     load_toml,
     load_yaml,
     load_ini,
     load_json,
-    file_to_env,
 )
+from configclasses.helpers import normalize_field_name
+from configclasses.configclasses import file_to_env
 
 
 def test_normalize_field_name():

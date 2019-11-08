@@ -2,7 +2,15 @@ from dataclasses import _process_class, fields
 from pathlib import Path
 from typing import Dict, Optional
 
-from configclasses.helpers import fill_init_dict, path_to_env
+from configclasses.exceptions import ConfigFilePathDoesNotExist, NonSupportedExtension
+from configclasses.helpers import fill_init_dict, supported_extensions
+from configclasses.loaders import (
+    load_env,
+    load_toml,
+    load_yaml,
+    load_ini,
+    load_json,
+)
 
 
 def configclass(
@@ -52,3 +60,42 @@ def _post_process_class(the_class, the_prefix: Optional[str]):
     the_class.from_path = classmethod(from_path)
 
     return the_class
+
+
+def path_to_env(path: Path):
+    """Given a path it loads into os.environ all config files found in this path.
+    """
+    if not path.exists():
+        raise ConfigFilePathDoesNotExist(
+            f"Config file path '{str(path)}' does not exist"
+        )
+    if path.is_file():
+        load_file(path)
+    else:
+        load_path(path)
+
+
+def file_to_env(extension: str, path: Path):
+    if extension == ".env":
+        load_env(path)
+    elif extension == ".toml":
+        load_toml(path)
+    elif extension == ".yaml" or extension == ".yml":
+        load_yaml(path)
+    elif extension == ".ini" or extension == ".cfg":
+        load_ini(path)
+    elif extension == ".json":
+        load_json(path)
+
+
+def load_path(path):
+    for x in path.iterdir():
+        path_to_env(x)
+
+
+def load_file(path):
+    extension = path.suffix or path.name
+    if extension in supported_extensions:
+        file_to_env(extension, path)
+    else:
+        raise NonSupportedExtension(f"Extension '{extension}' not supported")

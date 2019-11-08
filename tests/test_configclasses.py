@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from configclasses.helpers import ConfigFilePathDoesNotExist
+from configclasses.exceptions import ConfigFilePathDoesNotExist
 
 
 def test_path_to_env_inexistent_path(a_configclass):
