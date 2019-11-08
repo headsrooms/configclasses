@@ -105,7 +105,7 @@ class AppConfig:
 ```
 
 ```python
-...
+# app.py
 from api.config import AppConfig
 
 app_config = AppConfig.from_path(".env")
