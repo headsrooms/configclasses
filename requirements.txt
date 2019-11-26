@@ -1,0 +1,5 @@
+pytest==5.*,>=5.2.0
+pytest-mypy==0.*,>=0.4.1
+python-dotenv[dotenv]==0.*,>=0.10.3
+pyyaml[yaml]==5.*,>=5.1.0
+tomlkit[toml]==0.*,>=0.5.8
