@@ -34,7 +34,7 @@ def test_path_to_env_if_path_is_a_json_file(a_configclass):
 def test_path_to_env_if_path_is_a_dir(a_configclass):
     a_configclass.from_path(Path("tests/test_files/"))
     assert os.environ["outer_int"] == "1"
-    assert os.environ["section_inner_bool"] == "False"
+    assert os.environ["section_inner_bool"] == "false"
     assert os.environ["inner_string"] == "hola"
     assert os.environ["section_1_inner_float"] == "3.4"
 
