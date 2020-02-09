@@ -52,17 +52,15 @@ Python 3.8+
 
 ## Installation
 
-    pip install 12factor-configclasses
-    
-## Supported formats
+Depending on your chosen config file format you can install:
 
-- .env ->   ```pip install 12factor-configclasses[dotenv]```
+- .env  ->   ```pip install 12factor-configclasses[dotenv]```
 - .yaml ->   ```pip install 12factor-configclasses[yaml]```
 - .toml ->   ```pip install 12factor-configclasses[toml]```
-- .ini
-- .json
+- .ini  ->   ```pip install 12factor-configclasses```
+- .json ->   ```pip install 12factor-configclasses```
 
-Install all dependencies with:
+Or install all supported formats with:
 
     pip install 12factor-configclasses[full]
     
