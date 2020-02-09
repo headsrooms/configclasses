@@ -14,9 +14,9 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
-tomlkit = {version = "^0.5.8", extras = ["toml"], optional = true}
-python-dotenv = {version = "^0.10.3", extras = ["dotenv"], optional = true}
-pyyaml = {version = "^5.1", extras = ["yaml"], optional = true}
+tomlkit = {version = "^0.5", extras = ["toml"], optional = true}
+python-dotenv = {version = "^0.11", extras = ["dotenv"], optional = true}
+pyyaml = {version = "^5", extras = ["yaml"], optional = true}
 
 [tool.poetry.extras]
 toml = ["tomlkit"]
@@ -27,7 +27,7 @@ full = ["tomlkit", "python-dotenv", "pyyaml"]
 [tool.poetry.dev-dependencies]
 pytest = "^5"
 tomlkit = {version = "^0.5"}
-python-dotenv = {version = "^0.10"}
+python-dotenv = {version = "^0.11"}
 pyyaml = {version = "^5"}
 pytest-mypy = "^0.4"
 
