@@ -5,7 +5,7 @@
 <a href="https://codeclimate.com/github/kingoodie/configclasses/maintainability"><img src="https://api.codeclimate.com/v1/badges/9094f65f5caef64fb993/maintainability" /></a>
 
 
-Like dataclases but for config.
+Like dataclasses but for config.
 
 Specify your config with a class and load it with your env vars or env files.
 
