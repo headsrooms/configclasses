@@ -11,27 +11,27 @@ Specify your config with a class and load it with your env vars or env files.
 
 
 ```python
->>> import httpx
-... from configclasses import configclass
->>> class UserAPIClient(httpx.AsyncClient):
-...     def __init__(self, config: ClientConfig, *args, **kwargs):
-...         self.config = config
-...         super().__init__(*args, **kwargs)
-... 
-...     async def get_users(self, headers: Optional[Headers] = None) -> Dict[str, Any]:
-...         response = await self.get(f"{self.path}/users", auth=headers)
-...         response.raise_for_status()
-...         return response.json()
-...     
->>> @configclass
-... class ClientConfig:
-...     host: str
-...     port: int
-...
->>> config = ClientConfig.from_path(".env")
-... async with UserAPIClient(config) as client:
-...     users = await client.get_users(auth_headers)
-...   
+import httpx
+from configclasses import configclass
+class UserAPIClient(httpx.AsyncClient):
+    def __init__(self, config: ClientConfig, *args, **kwargs):
+        self.config = config
+        super().__init__(*args, **kwargs)
+
+    async def get_users(self, headers: Optional[Headers] = None) -> Dict[str, Any]:
+        response = await self.get(f"{self.path}/users", auth=headers)
+        response.raise_for_status()
+        return response.json()
+    
+@configclass
+class ClientConfig:
+    host: str
+    port: int
+
+config = ClientConfig.from_path(".env")
+async with UserAPIClient(config) as client:
+    users = await client.get_users(auth_headers)
+  
 ```
 
 ## Features
@@ -64,7 +64,11 @@ Or install all supported formats with:
 
     pip install 12factor-configclasses[full]
     
-## Example
+## Usage
+
+There are two ways to use it:
+
+- Loading an .env file:
 
 ```.env
 # .env
@@ -131,3 +135,12 @@ if __name__ == "__main__":
 ```
 
     
+- Loading predefined environmental variables:
+
+The same than before, but instead of:
+
+    app_config = AppConfig.from_path(".env")
+    
+You will do:
+
+    app_config = AppConfig.from_environ()
