@@ -31,7 +31,6 @@ class ClientConfig:
 config = ClientConfig.from_path(".env")
 async with UserAPIClient(config) as client:
     users = await client.get_users(auth_headers)
-  
 ```
 
 ## Features
