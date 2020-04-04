@@ -9,7 +9,8 @@ from configclasses.loaders import (
     load_yaml,
     load_ini,
     load_json,
-    load_env)
+    load_env,
+)
 
 
 def test_normalize_field_name():

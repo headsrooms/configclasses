@@ -1,6 +1,6 @@
 import os
 from dataclasses import is_dataclass
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Union, Optional
 
 supported_extensions = (".env", ".toml", ".yaml", ".yml", ".ini", ".cfg", ".json")
 converter_types = (int, float)
@@ -10,7 +10,7 @@ def get_field_value_from_environ(field_name: Any):
     return os.environ.get(str.upper(field_name)) or os.environ.get(field_name)
 
 
-def get_default_value(field_name: Any, defaults: Dict[str, str]):
+def get_default_value(field_name: Any, defaults: Dict[str, str]) -> Optional[str]:
     if defaults:
         return defaults.get(str.upper(field_name)) or defaults.get(field_name)
 
@@ -46,7 +46,7 @@ def fill_with_environ_or_provided_defaults(
     if class_field_type in converter_types:
         init_dict[class_field_name] = class_field_type(field_value)
     elif class_field_type == bool:
-        init_dict[class_field_name] = field_value == "True" or field_value == "true"
+        init_dict[class_field_name] = field_value in ("True", "true")
     else:
         init_dict[class_field_name] = field_value
 

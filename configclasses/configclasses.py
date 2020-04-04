@@ -16,8 +16,8 @@ from configclasses.loaders import (
 def configclass(
     cls=None, /, *, prefix: Optional[str] = None, **dataclass_parameters,
 ):
-    """Same behaviour that dataclass with additional classmethods as dataclass intializers: from_environ and from_path
-    """
+    """Same behaviour that dataclass with additional classmethods as dataclass initializers:
+    from_environ and from_path"""
 
     init = dataclass_parameters.get("init", True)
     repr = dataclass_parameters.get("repr", True)
@@ -68,8 +68,7 @@ def _post_process_class(the_class, the_prefix: Optional[str]):
 
 
 def path_to_env(path: Path):
-    """Given a path it loads into os.environ all config files found in this path.
-    """
+    """Given a path it loads into os.environ all config files found in this path."""
     if not path.exists():
         raise ConfigFilePathDoesNotExist(
             f"Config file path '{str(path)}' does not exist"
@@ -87,9 +86,9 @@ def file_to_env(
         load_env(path, string)
     elif extension == ".toml":
         load_toml(path, string)
-    elif extension == ".yaml" or extension == ".yml":
+    elif extension in (".yaml", ".yml"):
         load_yaml(path, string)
-    elif extension == ".ini" or extension == ".cfg":
+    elif extension in (".ini", ".cfg"):
         load_ini(path, string)
     elif extension == ".json":
         load_json(path, string)
