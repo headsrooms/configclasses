@@ -1,6 +1,6 @@
 import os
 from dataclasses import is_dataclass
-from typing import Any, Dict, List, Tuple, Union, Optional
+from typing import Any, Dict, List, Tuple, Optional
 
 supported_extensions = (".env", ".toml", ".yaml", ".yml", ".ini", ".cfg", ".json")
 converter_types = (int, float)
