@@ -1,19 +1,23 @@
 import configparser
 import os
+from io import StringIO
 from json import loads
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 from configclasses.exceptions import DependencyNotInstalled
 from configclasses.helpers import normalize_field_name
 
 
-def load_env(path):
+def load_env(path: Optional[Path] = None, string: Optional[str] = None):
     try:
         from dotenv import load_dotenv
     except ImportError:
         raise DependencyNotInstalled("You must install 'python-dotenv'")
-    load_dotenv(dotenv_path=path)
+    if path:
+        load_dotenv(dotenv_path=path)
+    else:
+        load_dotenv(stream=StringIO(string))
 
 
 def load_dict(dict: Dict[str, str]):
@@ -27,35 +31,44 @@ def load_dict(dict: Dict[str, str]):
         os.environ[normalize_field_name(k)] = str(v)
 
 
-def load_toml(path: Path):
+def load_toml(path: Optional[Path] = None, string: Optional[str] = None):
     try:
         from tomlkit import parse
     except ImportError:
         raise DependencyNotInstalled("You must install 'tomlkit'")
 
-    with path.open("r") as config_file:
-        cfg = parse(config_file.read())
+    if path:
+        with path.open("r") as config_file:
+            cfg = parse(config_file.read())
+    else:
+        cfg = parse(string)
     load_dict(cfg)
 
 
-def load_yaml(path: Path):
+def load_yaml(path: Optional[Path] = None, string: Optional[str] = None):
     try:
         from yaml import full_load
     except ImportError:
         raise DependencyNotInstalled("You must install pyyaml")
 
-    with path.open("r") as config_file:
-        cfg = full_load(config_file.read())
+    if path:
+        with path.open("r") as config_file:
+            cfg = full_load(config_file.read())
+    else:
+        cfg = full_load(string)
     load_dict(cfg)
 
 
-def load_ini(path: Path):
+def load_ini(path: Optional[Path] = None, string: Optional[str] = None):
     cfg = configparser.ConfigParser()
-    cfg.read(path)
+    cfg.read(path) if path else cfg.read_string(string)
     load_dict(cfg.__dict__["_sections"])
 
 
-def load_json(path: Path):
-    with path.open("r") as config_file:
-        cfg = loads(config_file.read())
+def load_json(path: Optional[Path] = None, string: Optional[str] = None):
+    if path:
+        with path.open("r") as config_file:
+            cfg = loads(config_file.read())
+    else:
+        cfg = loads(string)
     load_dict(cfg)

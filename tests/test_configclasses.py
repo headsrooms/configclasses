@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 
+from configclasses import configclass
 from configclasses.exceptions import ConfigFilePathDoesNotExist
 
 
@@ -28,6 +29,15 @@ def test_path_to_env_if_path_is_a_ini_file(a_configclass):
 
 def test_path_to_env_if_path_is_a_json_file(a_configclass):
     a_configclass.from_path(Path("tests/test_files/test.json"))
+    assert os.environ["outer_int"] == "1"
+
+
+def test_path_to_env_if_path_is_a_json_string(a_configclass):
+    test_json = """{"OUTER_INT": 1,"section": {
+                "INNER_FLOAT": 3.4,
+                "inner_bool": false,
+                "INNER_STRING": "hola"}}"""
+    a_configclass.from_string(test_json, ".json")
     assert os.environ["outer_int"] == "1"
 
 
@@ -57,3 +67,35 @@ def test_prefix_parameter_works(a_configclass_with_prefix):
     assert cfg.db.port == 8432
     assert cfg.db.host == "localhost"
     assert cfg.db.user == "katie"
+
+
+def test_readme_exampe_from_string():
+    @configclass
+    class DB:
+        user: str
+        password: str
+        url: str
+
+    @configclass
+    class AppConfig:
+        host: str
+        port: int
+        db: DB
+        generate_schemas: bool
+        debug: bool
+        https_only: bool
+        gzip: bool
+        sentry: bool
+
+    test_env = """
+    HOST=0.0.0.0
+    PORT=8000
+    DB_URL=sqlite://:memory:
+    GENERATE_SCHEMAS=True
+    DEBUG=True
+    HTTPS_ONLY=False
+    GZIP=True
+    SENTRY=False"""
+    app_config = AppConfig.from_string(test_env, ".env")
+    assert app_config.port == 8000
+    assert app_config.db.url == "sqlite://:memory:"

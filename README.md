@@ -65,7 +65,7 @@ Or install all supported formats with:
     
 ## Usage
 
-There are two ways to use it:
+There are three ways to use it:
 
 - Loading an .env file:
 
@@ -143,3 +143,17 @@ The same than before, but instead of:
 You will do:
 
     app_config = AppConfig.from_environ()
+    
+- Loading a file from a string:
+
+```python
+test_env = """HOST=0.0.0.0
+PORT=8000
+DB_URL=sqlite://:memory:
+GENERATE_SCHEMAS=True
+DEBUG=True
+HTTPS_ONLY=False
+GZIP=True
+SENTRY=False"""
+app_config = AppConfig.from_string(test_env, ".env")
+```

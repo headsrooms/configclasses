@@ -56,8 +56,13 @@ def _post_process_class(the_class, the_prefix: Optional[str]):
         path_to_env(Path(config_path))
         return cls.from_environ(defaults)
 
+    def from_string(cls, string: str, extension: str, defaults: Dict[str, str] = None):
+        load_file(string=string, extension=extension)
+        return cls.from_environ(defaults)
+
     the_class.from_environ = classmethod(from_environ)
     the_class.from_path = classmethod(from_path)
+    the_class.from_string = classmethod(from_string)
 
     return the_class
 
@@ -75,27 +80,33 @@ def path_to_env(path: Path):
         load_path(path)
 
 
-def file_to_env(extension: str, path: Path):
+def file_to_env(
+    extension: str, path: Optional[Path] = None, string: Optional[str] = None
+):
     if extension == ".env":
-        load_env(path)
+        load_env(path, string)
     elif extension == ".toml":
-        load_toml(path)
+        load_toml(path, string)
     elif extension == ".yaml" or extension == ".yml":
-        load_yaml(path)
+        load_yaml(path, string)
     elif extension == ".ini" or extension == ".cfg":
-        load_ini(path)
+        load_ini(path, string)
     elif extension == ".json":
-        load_json(path)
+        load_json(path, string)
 
 
-def load_path(path):
+def load_path(path: Path):
     for x in path.iterdir():
         path_to_env(x)
 
 
-def load_file(path):
-    extension = path.suffix or path.name
+def load_file(
+    path: Optional[Path] = None,
+    string: Optional[str] = None,
+    extension: Optional[str] = None,
+):
+    extension = path.suffix or path.name if path else extension
     if extension in supported_extensions:
-        file_to_env(extension, path)
+        file_to_env(extension, path, string)
     else:
         raise NonSupportedExtension(f"Extension '{extension}' not supported")
