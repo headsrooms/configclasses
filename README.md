@@ -13,6 +13,8 @@ Specify your config with a class and load it with your env vars or env files.
 ```python
 import httpx
 from configclasses import configclass
+
+
 class UserAPIClient(httpx.AsyncClient):
     def __init__(self, config: ClientConfig, *args, **kwargs):
         self.config = config
