@@ -1,7 +1,7 @@
 # configclasses
 
 ![PyPI](https://img.shields.io/pypi/v/12factor-configclasses)
-[![codecov](https://codecov.io/gh/kingoodie/configclasses/branch/master/graph/badge.svg)](https://codecov.io/gh/kingoodie/configclasses)
+[![codecov](https://codecov.io/gh/headsrooms/configclasses/branch/master/graph/badge.svg?token=U0bxsmAUoe)](https://codecov.io/gh/headsrooms/configclasses)
 <a href="https://codeclimate.com/github/kingoodie/configclasses/maintainability"><img src="https://api.codeclimate.com/v1/badges/9094f65f5caef64fb993/maintainability" /></a>
 
 
