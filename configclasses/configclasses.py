@@ -118,7 +118,7 @@ def load_file(
 
 def dump(
     obj,
-    path: Optional[str] = None,
+    path: Optional[PathLike] = None,
     extension: Optional[str] = None,
 ):
     path = Path(path) if path else None

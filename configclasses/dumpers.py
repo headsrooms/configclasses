@@ -14,7 +14,7 @@ def dump_env_key(key, value):
         return f"{key}={value}\n"
 
 
-def dump_env(obj, path):
+def dump_env(obj, path: PathLike):
     lines = [f"{dump_env_key(key, value)}" for key, value in obj.__dict__.items()]
     with open(path, "w") as file:
         file.writelines(lines)
@@ -43,7 +43,7 @@ def dump_json_key(value):
         return value
 
 
-def dump_json(obj, path):
+def dump_json(obj, path: PathLike):
     output = {key: dump_json_key(value) for key, value in obj.__dict__.items()}
 
     with open(path, "w") as file:
