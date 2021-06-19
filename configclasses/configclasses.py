@@ -14,7 +14,11 @@ from configclasses.loaders import (
 
 
 def configclass(
-    cls = None, /, *, prefix: Optional[str] = None, **dataclass_parameters,
+    cls=None,
+    /,
+    *,
+    prefix: Optional[str] = None,
+    **dataclass_parameters,
 ):
     """Same behaviour that dataclass with additional classmethods as dataclass initializers:
     from_environ and from_path"""
