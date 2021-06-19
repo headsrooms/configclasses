@@ -4,7 +4,10 @@ from dataclasses import asdict, _MISSING_TYPE
 
 def dump_env_key(key, value):
     try:
-        lines = [f"{dump_env_key(key + '_' + sub_key, sub_value)}" for sub_key, sub_value in value.__dict__.items()]
+        lines = [
+            f"{dump_env_key(key + '_' + sub_key, sub_value)}"
+            for sub_key, sub_value in value.__dict__.items()
+        ]
         lines = [line for line in lines if line]
         return "\n".join(lines)
     except AttributeError:
@@ -31,7 +34,11 @@ def dump_ini(obj, path):
 
 def dump_json_key(value):
     try:
-        return {key: sub_value for key, sub_value in asdict(value).items() if not isinstance(sub_value,_MISSING_TYPE)}
+        return {
+            key: sub_value
+            for key, sub_value in asdict(value).items()
+            if not isinstance(sub_value, _MISSING_TYPE)
+        }
     except TypeError:
         return value
 
