@@ -69,7 +69,7 @@ def test_prefix_parameter_works(a_configclass_with_prefix):
     assert cfg.db.user == "katie"
 
 
-def test_readme_exampe_from_string():
+def test_readme_example_from_string():
     @configclass
     class DB:
         user: str
