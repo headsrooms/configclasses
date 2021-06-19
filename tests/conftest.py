@@ -39,3 +39,25 @@ def a_configclass_with_prefix():
         only_pub: bool = False
 
     return AppConfig
+
+
+@pytest.fixture
+def another_configclass():
+    @configclass
+    class DB:
+        user: str
+        password: str
+        url: str
+
+    @configclass
+    class AppConfig:
+        host: str
+        port: int
+        db: DB
+        generate_schemas: bool
+        debug: bool
+        https_only: bool
+        gzip: bool
+        sentry: bool
+
+    return AppConfig

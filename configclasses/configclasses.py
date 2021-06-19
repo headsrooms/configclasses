@@ -2,6 +2,7 @@ from dataclasses import _process_class, fields
 from pathlib import Path
 from typing import Dict, Optional
 
+from configclasses.dumpers import dump_env, dump_toml, dump_yaml, dump_ini, dump_json
 from configclasses.exceptions import ConfigFilePathDoesNotExist, NonSupportedExtension
 from configclasses.helpers import fill_init_dict, supported_extensions
 from configclasses.loaders import (
@@ -111,5 +112,27 @@ def load_file(
     extension = path.suffix or path.name if path else extension
     if extension in supported_extensions:
         file_to_env(extension, path, string)
+    else:
+        raise NonSupportedExtension(f"Extension '{extension}' not supported")
+
+
+def dump(
+    obj,
+    path: Optional[str] = None,
+    extension: Optional[str] = None,
+):
+    path = Path(path) if path else None
+    extension = path.suffix or path.name if path else extension
+    if extension in supported_extensions:
+        if extension == ".env":
+            dump_env(obj, path)
+        elif extension == ".toml":
+            dump_toml(obj, path)
+        elif extension in (".yaml", ".yml"):
+            dump_yaml(obj, path)
+        elif extension in (".ini", ".cfg"):
+            dump_ini(obj, path)
+        elif extension == ".json":
+            dump_json(obj, path)
     else:
         raise NonSupportedExtension(f"Extension '{extension}' not supported")
