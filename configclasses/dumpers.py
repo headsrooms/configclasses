@@ -1,5 +1,6 @@
 import json
 from dataclasses import asdict, _MISSING_TYPE
+from os import PathLike
 
 
 def dump_env_key(key, value):

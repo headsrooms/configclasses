@@ -1,7 +1,3 @@
-from dataclasses import _process_class, fields
-from pathlib import Path
-from typing import Dict, Optional
-
 from configclasses.dumpers import dump_env, dump_toml, dump_yaml, dump_ini, dump_json
 from configclasses.exceptions import ConfigFilePathDoesNotExist, NonSupportedExtension
 from configclasses.helpers import fill_init_dict, supported_extensions
@@ -12,6 +8,10 @@ from configclasses.loaders import (
     load_ini,
     load_json,
 )
+from dataclasses import _process_class, fields
+from os import PathLike
+from pathlib import Path
+from typing import Dict, Optional
 
 
 def configclass(
