@@ -3,6 +3,7 @@
 ![PyPI](https://img.shields.io/pypi/v/12factor-configclasses)
 [![codecov](https://codecov.io/gh/headsrooms/configclasses/branch/master/graph/badge.svg?token=U0bxsmAUoe)](https://codecov.io/gh/headsrooms/configclasses)
 <a href="https://codeclimate.com/github/kingoodie/configclasses/maintainability"><img src="https://api.codeclimate.com/v1/badges/9094f65f5caef64fb993/maintainability" /></a>
+[![Downloads](https://pepy.tech/badge/12factor-configclasses/month)](https://pepy.tech/project/12factor-configclasses)
 
 
 Like dataclasses but for config.
