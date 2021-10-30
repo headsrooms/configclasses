@@ -19,21 +19,34 @@ def configclass(
     /,
     *,
     prefix: Optional[str] = None,
-    **dataclass_parameters,
+    init=True,
+    repr=True,
+    eq=True,
+    order=False,
+    unsafe_hash=False,
+    frozen=False,
+    match_args=True,
+    kw_only=False,
+    slots=False,
 ):
     """Same behaviour that dataclass with additional classmethods as dataclass initializers:
     from_environ and from_path"""
 
-    init = dataclass_parameters.get("init", True)
-    repr = dataclass_parameters.get("repr", True)
-    eq = dataclass_parameters.get("eq", True)
-    order = dataclass_parameters.get("order", False)
-    unsafe_hash = dataclass_parameters.get("unsafe_hash", False)
-    frozen = dataclass_parameters.get("frozen", True)
-
     def wrap(cls):
         return _post_process_class(
-            _process_class(cls, init, repr, eq, order, unsafe_hash, frozen), prefix
+            _process_class(
+                cls,
+                init,
+                repr,
+                eq,
+                order,
+                unsafe_hash,
+                frozen,
+                match_args,
+                kw_only,
+                slots,
+            ),
+            prefix,
         )
 
     # See if we're being called as @configclass or @configclass().

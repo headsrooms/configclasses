@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "12factor-configclasses"
-version = "0.4.2"
+version = "1.0.0"
 description = "Like dataclasses but for config."
 authors = ["Pablo Cabezas <pabcabsal@gmail.com>"]
 readme = "README.md"
@@ -13,10 +13,10 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-tomlkit = {version = "^0.5", extras = ["toml"], optional = true}
-python-dotenv = {version = "^0.12", extras = ["dotenv"], optional = true}
-pyyaml = {version = "^5", extras = ["yaml"], optional = true}
+python = "^3.10"
+tomlkit = {version = "^0.7", extras = ["toml"], optional = true}
+python-dotenv = {version = "^0.19", extras = ["dotenv"], optional = true}
+pyyaml = {version = "^6", extras = ["yaml"], optional = true}
 
 [tool.poetry.extras]
 toml = ["tomlkit"]
@@ -25,11 +25,11 @@ yaml = ["pyyaml"]
 full = ["tomlkit", "python-dotenv", "pyyaml"]
 
 [tool.poetry.dev-dependencies]
-pytest = "^5"
-tomlkit = {version = "^0.5"}
-python-dotenv = {version = "^0.12"}
-pyyaml = {version = "^5"}
-pytest-mypy = "^0.6"
+pytest = "^6"
+tomlkit = {version = "^0.7"}
+python-dotenv = {version = "^0.19"}
+pyyaml = {version = "^6"}
+pytest-mypy = "^0.8"
 
 [build-system]
 requires = ["poetry>=0.12"]
