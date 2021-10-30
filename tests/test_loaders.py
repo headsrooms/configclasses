@@ -19,10 +19,10 @@ def test_normalize_field_name():
 
 def test_file_to_env_dotenv():
     file_to_env(".env", Path("tests/test_files/.env"))
-    assert os.environ["outer_int"] == "1"
-    assert os.environ["section_1_inner_float"] == "3.4"
-    assert os.environ["other_section_inner_bool"] == "False"
-    assert os.environ["other_section_inner_string"] == "hola"
+    assert os.environ["int"] == "1"
+    assert os.environ["float"] == "3.4"
+    assert os.environ["bool"] == "false"
+    assert os.environ["string"] == "hola"
 
 
 def test_load_dict():

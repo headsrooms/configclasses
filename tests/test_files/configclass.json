@@ -1,0 +1,11 @@
+{
+  "default_price": 1,
+  "only_pub": false,
+  "db": {
+    "driver": "bq",
+    "host": "localhost",
+    "port": 321,
+    "user": "lonershy",
+    "password": "brootalz"
+  }
+}

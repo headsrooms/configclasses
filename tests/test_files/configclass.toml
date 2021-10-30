@@ -1,0 +1,9 @@
+default_price = 1.10
+only_pub = true
+
+[DB]
+driver = "postgres"
+host = "1.1.1.1"
+port = 82
+user = "root"
+password = "test"
