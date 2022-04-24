@@ -66,9 +66,9 @@ Or install all supported formats with:
     
 ## Usage
 
-There are three ways to use it:
+There are three ways to use it.
 
-- Loading an .env file:
+### Loading an .env file:
 
 ```.env
 # .env
@@ -135,7 +135,7 @@ if __name__ == "__main__":
 ```
 
     
-- Loading predefined environmental variables:
+### Loading predefined environmental variables:
 
 The same than before, but instead of:
 
@@ -145,7 +145,7 @@ You will do:
 
     app_config = AppConfig.from_environ()
     
-- Loading a file from a string:
+### Loading a file from a string:
 
 ```python
 test_env = """HOST=0.0.0.0
