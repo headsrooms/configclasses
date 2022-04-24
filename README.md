@@ -17,24 +17,21 @@ import httpx
 from configclasses import configclass
 
 
-class UserAPIClient(httpx.AsyncClient):
-    def __init__(self, config: ClientConfig, *args, **kwargs):
-        self.config = config
-        super().__init__(*args, **kwargs)
-
-    async def get_users(self, headers: Optional[Headers] = None) -> Dict[str, Any]:
-        response = await self.get(f"{self.path}/users", auth=headers)
-        response.raise_for_status()
-        return response.json()
-    
 @configclass
 class ClientConfig:
     host: str
     port: int
 
+
+class UserAPIClient(httpx.AsyncClient):
+    def __init__(self, config: ClientConfig, *args, **kwargs):
+        self.config = config
+        ...
+        
+
 config = ClientConfig.from_path(".env")
 async with UserAPIClient(config) as client:
-    users = await client.get_users(auth_headers)
+    ...
 ```
 
 ## Features
