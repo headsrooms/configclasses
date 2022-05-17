@@ -11,6 +11,13 @@ Like dataclasses but for config.
 
 Specify your config with a class and load it with your env vars or env files.
 
+```.env
+# .env
+HOST=0.0.0.0
+PORT=8000
+...
+```
+
 
 ```python
 import httpx
