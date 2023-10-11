@@ -5,7 +5,6 @@ from configclasses.dumpers import dump_env, dump_json
 
 
 def test_dump_env(another_configclass):
-
     test_env = """
     HOST=0.0.0.0
     PORT=8000

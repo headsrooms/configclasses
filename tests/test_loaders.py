@@ -5,11 +5,11 @@ from configclasses.configclasses import file_to_env
 from configclasses.helpers import normalize_field_name
 from configclasses.loaders import (
     load_dict,
-    load_toml,
-    load_yaml,
+    load_env,
     load_ini,
     load_json,
-    load_env,
+    load_toml,
+    load_yaml,
 )
 
 

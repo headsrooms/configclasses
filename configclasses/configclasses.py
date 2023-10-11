@@ -1,17 +1,13 @@
-from configclasses.dumpers import dump_env, dump_toml, dump_yaml, dump_ini, dump_json
-from configclasses.exceptions import ConfigFilePathDoesNotExist, NonSupportedExtension
-from configclasses.helpers import fill_init_dict, supported_extensions
-from configclasses.loaders import (
-    load_env,
-    load_toml,
-    load_yaml,
-    load_ini,
-    load_json,
-)
+import inspect
 from dataclasses import _process_class, fields
 from os import PathLike
 from pathlib import Path
 from typing import Dict, Optional
+
+from configclasses.dumpers import dump_env, dump_ini, dump_json, dump_toml, dump_yaml
+from configclasses.exceptions import ConfigFilePathDoesNotExist, NonSupportedExtension
+from configclasses.helpers import fill_init_dict, supported_extensions
+from configclasses.loaders import load_env, load_ini, load_json, load_toml, load_yaml
 
 
 def configclass(
@@ -28,24 +24,25 @@ def configclass(
     match_args=True,
     kw_only=False,
     slots=False,
+    weakref_slot=False,
 ):
     """Same behaviour that dataclass with additional classmethods as dataclass initializers:
     from_environ and from_path"""
 
     def wrap(cls):
+        signature = inspect.signature(_process_class)
+        kwargs = {}
+        if "match_args" in signature.parameters:
+            kwargs["match_args"] = match_args
+        if "kw_only" in signature.parameters:
+            kwargs["kw_only"] = kw_only
+        if "slots" in signature.parameters:
+            kwargs["slots"] = slots
+        if "weakref_slot" in signature.parameters:
+            kwargs["weakref_slot"] = weakref_slot
+
         return _post_process_class(
-            _process_class(
-                cls,
-                init,
-                repr,
-                eq,
-                order,
-                unsafe_hash,
-                frozen,
-                match_args,
-                kw_only,
-                slots,
-            ),
+            _process_class(cls, init, repr, eq, order, unsafe_hash, frozen, **kwargs),
             prefix,
         )
 

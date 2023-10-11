@@ -1,5 +1,5 @@
 import json
-from dataclasses import asdict, _MISSING_TYPE
+from dataclasses import _MISSING_TYPE, asdict
 from os import PathLike
 
 
