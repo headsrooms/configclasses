@@ -60,21 +60,12 @@ jobs:
           pipx install --pip-args=--constraint=.github/workflows/constraints.txt poetry
           poetry --version
 
-      - name: Install Nox
+      - name: Make poetry install
         run: |
-          pipx install --pip-args=--constraint=.github/workflows/constraints.txt nox
-          nox --version
-
-      - name: Install nox-poetry
-        run: |
-          pip install nox-poetry
-
-      - name: Install poetry
-        run: |
-          poetry install
+          poetry install --with dev
 
       - name: Run nox
-        run: pipx run nox --error-on-missing-interpreters -s tests-${{ matrix.python_version }}
+        run: poetry run nox --error-on-missing-interpreters -s tests-${{ matrix.python_version }}
 
       - name: Upload coverage data
         if: always() && matrix.session == 'tests'
@@ -99,20 +90,14 @@ jobs:
         run: |
           pip install --constraint=.github/workflows/constraints.txt pip
           pip --version
-
       - name: Install Poetry
         run: |
           pipx install --pip-args=--constraint=.github/workflows/constraints.txt poetry
           poetry --version
 
-      - name: Install Nox
+      - name: Make poetry install
         run: |
-          pipx install --pip-args=--constraint=.github/workflows/constraints.txt nox
-          nox --version
-
-      - name: Install nox-poetry
-        run: |
-          pip install nox-poetry
+          poetry install --with dev
 
       - name: Download coverage data
         uses: actions/download-artifact@v3.0.2
@@ -121,11 +106,11 @@ jobs:
 
       - name: Combine coverage data and display human readable report
         run: |
-          nox --session=coverage
+          poetry run nox --session=coverage
 
       - name: Create coverage report
         run: |
-          nox --session=coverage -- xml
+          poetry run nox --session=coverage -- xml
 
       - name: Upload coverage report
         uses: codecov/codecov-action@v3.1.4
