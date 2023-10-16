@@ -49,15 +49,16 @@ def test_path_to_env_if_path_is_a_json_string(a_configclass):
 
 
 def test_path_to_env_if_path_is_a_dir(a_configclass):
-    a_configclass.from_path(Path("tests/test_files/configclass_path/"))
+    configclass_path = Path("tests") / "test_files" / "configclass_path"
+    a_configclass.from_path(configclass_path)
     assert os.environ["DB_HOST"] == "192.168.1.11"
 
 
 def test_from_environ(a_configclass):
     os.environ["DEFAULT_PRICE"] = "22"
     os.environ["ONLY_PUB"] = "True"
-    os.environ.pop("DB_USER")
-    os.environ.pop("db_user")
+    os.environ.pop("DB_USER", None)
+    os.environ.pop("db_user", None)
     cfg = a_configclass.from_environ({"db_driver": "mssql", "db_user": "matt"})
     assert cfg.default_price == 22
     assert cfg.only_pub is True
