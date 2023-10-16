@@ -52,7 +52,7 @@ jobs:
           poetry install --with dev
 
       - name: Run nox
-        run: poetry run nox --error-on-missing-interpreters --python=${{ matrix.python }}
+        run: poetry run nox --error-on-missing-interpreters --python=${{ matrix.python-version }}
 
       - name: Upload coverage data
         if: always() && matrix.session == 'tests'
