@@ -33,6 +33,7 @@ pytest-mypy = "^0.10"
 
 [tool.poetry.group.dev.dependencies]
 nox = "^2023.4.22"
+nox-poetry = "^1.0.3"
 
 [build-system]
 requires = ["poetry>=0.12"]
