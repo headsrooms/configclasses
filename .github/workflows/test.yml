@@ -140,7 +140,7 @@ jobs:
 
       - name: Install nox-poetry
         run: |
-          pip install .
+          pip install nox-poetry
 
       - name: Download coverage data
         uses: actions/download-artifact@v3.0.2

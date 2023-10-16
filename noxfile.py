@@ -8,10 +8,7 @@ from textwrap import dedent
 from typing import Optional
 
 import nox
-
-from nox_poetry import Session
-from nox_poetry import session
-
+from nox_poetry import Session, session
 
 package = "configclasses"
 python_versions = ["3.11", "3.10", "3.9", "3.12"]
