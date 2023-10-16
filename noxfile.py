@@ -11,4 +11,8 @@ def tests(session):
 @nox.session
 def coverage(session):
     session.run("poetry", "install", "--with", "dev", external=True)
-    session.run("coverage", "run", "-m", "pytest")
+    try:
+        session.run("coverage", "run", "-m", "pytest")
+    finally:
+        # Display coverage report even when tests fail.
+        session.run("coverage", "report")
