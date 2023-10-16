@@ -31,7 +31,6 @@ python-dotenv = {version = "^1.0"}
 pyyaml = {version = "^6"}
 pytest-mypy = "^0.10"
 nox = "^2023.4.22"
-nox-poetry = "^1.0.3"
 
 [build-system]
 requires = ["poetry>=0.12"]

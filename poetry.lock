@@ -190,22 +190,6 @@ virtualenv = ">=14"
 tox-to-nox = ["jinja2", "tox (<4)"]
 
 [[package]]
-name = "nox-poetry"
-version = "1.0.3"
-description = "nox-poetry"
-optional = false
-python-versions = ">=3.7,<4.0"
-files = [
-    {file = "nox_poetry-1.0.3-py3-none-any.whl", hash = "sha256:a2fffeb70ae81840479e68287afe1c772bf376f70f1e92f99832a20b3c64d064"},
-    {file = "nox_poetry-1.0.3.tar.gz", hash = "sha256:dc7ecbbd812a333a0c0b558f57e5b37f7c12926cddbcecaf2264957fd373824e"},
-]
-
-[package.dependencies]
-nox = ">=2020.8.22"
-packaging = ">=20.9"
-tomlkit = ">=0.7"
-
-[[package]]
 name = "packaging"
 version = "23.2"
 description = "Core utilities for Python packages"
@@ -426,4 +410,4 @@ yaml = ["pyyaml"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "34a57890aaf3d225bdc1674f74cfeaa0f67def6f8cdb9233b2f7de60612c704b"
+content-hash = "97e1f39dcc0a3f27c69d2eb31c563db7536979530f14030dd88dde7c9b697411"
