@@ -24,14 +24,12 @@ dotenv = ["python-dotenv"]
 yaml = ["pyyaml"]
 full = ["tomlkit", "python-dotenv", "pyyaml"]
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 pytest = "^7.4"
 tomlkit = {version = "^0.12"}
 python-dotenv = {version = "^1.0"}
 pyyaml = {version = "^6"}
 pytest-mypy = "^0.10"
-
-[tool.poetry.group.dev.dependencies]
 nox = "^2023.4.22"
 nox-poetry = "^1.0.3"
 
