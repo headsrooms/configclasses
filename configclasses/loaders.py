@@ -15,9 +15,9 @@ def load_env(path: Optional[Path] = None, string: Optional[str] = None):
     except ImportError:
         raise DependencyNotInstalled("You must install 'python-dotenv'")
     if path:
-        load_dotenv(dotenv_path=path)
+        load_dotenv(dotenv_path=path, override=True)
     else:
-        load_dotenv(stream=StringIO(string))
+        load_dotenv(stream=StringIO(string), override=True)
 
 
 def load_dict(dict: Dict[str, str]):
