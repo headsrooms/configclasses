@@ -69,33 +69,12 @@ jobs:
         run: |
           pip install nox-poetry
 
-      - name: Compute pre-commit cache key
-        if: matrix.session == 'pre-commit'
-        id: pre-commit-cache
-        shell: python
+        - name: Install poetry
         run: |
-          import hashlib
-          import sys
+          poetry install
 
-          python = "py{}.{}".format(*sys.version_info[:2])
-          payload = sys.version.encode() + sys.executable.encode()
-          digest = hashlib.sha256(payload).hexdigest()
-          result = "${{ runner.os }}-{}-{}-pre-commit".format(python, digest[:8])
-
-          print("::set-output name=result::{}".format(result))
-
-      - name: Restore pre-commit cache
-        uses: actions/cache@v3.3.1
-        if: matrix.session == 'pre-commit'
-        with:
-          path: ~/.cache/pre-commit
-          key: ${{ steps.pre-commit-cache.outputs.result }}-${{ hashFiles('.pre-commit-config.yaml') }}
-          restore-keys: |
-            ${{ steps.pre-commit-cache.outputs.result }}-
-
-      - name: Run Nox
-        run: |
-          nox --python=${{ matrix.python }}
+        - name: Run nox
+        run: pipx run nox --error-on-missing-interpreters -s tests-${{ matrix.python_version }}
 
       - name: Upload coverage data
         if: always() && matrix.session == 'tests'
@@ -103,13 +82,6 @@ jobs:
         with:
           name: coverage-data
           path: ".coverage.*"
-
-      - name: Upload documentation
-        if: matrix.session == 'docs-build'
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          name: docs
-          path: docs/_build
 
   coverage:
     runs-on: ubuntu-latest

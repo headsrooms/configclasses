@@ -13,7 +13,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.9"
 tomlkit = {version = "^0.12", extras = ["toml"], optional = true}
 python-dotenv = {version = "^1.0", extras = ["dotenv"], optional = true}
 pyyaml = {version = "^6", extras = ["yaml"], optional = true}

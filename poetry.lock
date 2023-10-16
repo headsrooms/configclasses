@@ -286,7 +286,10 @@ mypy = [
     {version = ">=0.900", markers = "python_version >= \"3.11\""},
     {version = ">=0.780", markers = "python_version >= \"3.9\" and python_version < \"3.11\""},
 ]
-pytest = {version = ">=6.2", markers = "python_version >= \"3.10\""}
+pytest = [
+    {version = ">=6.2", markers = "python_version >= \"3.10\""},
+    {version = ">=4.6", markers = "python_version >= \"3.6\" and python_version < \"3.10\""},
+]
 
 [[package]]
 name = "python-dotenv"
@@ -422,5 +425,5 @@ yaml = ["pyyaml"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.10"
-content-hash = "0139b949c4690dd8be987598475d8ee04d404067ff5cb73ee838520ecf6e8d8a"
+python-versions = "^3.9"
+content-hash = "34a57890aaf3d225bdc1674f74cfeaa0f67def6f8cdb9233b2f7de60612c704b"
