@@ -6,3 +6,9 @@ def tests(session):
     args = session.posargs
     session.run("poetry", "install", "--with", "dev", external=True)
     session.run("pytest", *args)
+
+
+@nox.session
+def coverage(session):
+    session.run("poetry", "install", "--with", "dev", external=True)
+    session.run("coverage", "run", "-m", "pytest")
