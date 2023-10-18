@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "12factor-configclasses"
-version = "2.0.0"
+version = "2.0.1"
 description = "Like dataclasses but for config."
 authors = ["Pablo Cabezas <pabcabsal@gmail.com>"]
 readme = "README.md"
